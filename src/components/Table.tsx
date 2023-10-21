@@ -4,33 +4,29 @@ import { useQuery } from '@apollo/client';
 // import './styles.module.scss';
 import apolloClient from '../apollo/client';
 import GET_REMINDERS from '../apollo/queries/GET_REMINDERS';
-import styles from '@component/styles/Table.module.css'
+import styles from '../styles/Table.module.css'
 import dayjs from 'dayjs';
-
-interface Reminder {
-  id: string;
-  message: string;
-  createdAt: string;
-  schedule: {
-    startTime: string;
-    occurance: string;
-  };
-}
+import remindersFixture from './tableFixture'
+import { Reminder } from '../model/Reminder';
 
 const ReminderTable: React.FC = () => {
   // Fetch the Reminder data using Apollo Client
-  const { loading, error, data } = useQuery(GET_REMINDERS, { client: apolloClient });
+  let { loading, error, data } = useQuery(GET_REMINDERS, { client: apolloClient });
   if (loading) {
     return <div>Loading...</div>;
   }
 
+ let reminders: Reminder[]
   if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+    console.log('Fetch failed, using fixture instead')
+    // return <div>Error: {error.message}</div>;
+    reminders = remindersFixture;
+  } else {
 
   console.log('data.reminders',data.reminders)
   console.log('dayjs().format()',dayjs().format())
-  const reminders: Reminder[] = data.reminders;
+  reminders = data.reminders;
+  }
 
   return (
     <table className={styles.table}>

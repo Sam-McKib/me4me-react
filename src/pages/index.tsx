@@ -3,7 +3,7 @@ import Head from "next/head";
 import React from "react";
 import ReminderTable from "../components/Table";
 import Reminders from "../components/Reminders"
-import styles from "@component/styles/Home.module.css";
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
